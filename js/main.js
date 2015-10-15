@@ -22,7 +22,7 @@ define(function(require) {
     };
 
     $(function() {
-        $('#calc').click(function(){
+        $('#calculator').submit(function(){
             var lhs = getMolecule('lhs');
             var rhs = getMolecule('rhs');
             var conf = getConfig();
@@ -60,6 +60,9 @@ define(function(require) {
                 '<p><span class="name">The estimated weight [g]</span>',
                 '<span class="value">%e</span></p>',
             ].join(''), rhs.toWeight(result[1])));
-        }).removeAttr('disabled');
+
+            return false;
+        });
+        $('#calc').removeAttr('disabled');
     });
 });
