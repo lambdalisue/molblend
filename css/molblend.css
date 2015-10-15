@@ -1,0 +1,83 @@
+/* Typography */
+body {
+    font-family: 'Merriweather', serif;
+    font-size: small;
+    color: #333;
+    background-color: #eee;
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Lato", sans-serif;
+    font-weight: normal;
+}
+h1 + h2.subscription {
+    font-size: small;
+    margin-top: -1em;
+    color: #888;
+    letter-spacing: 0.1em;
+}
+
+label {
+  display: inline-block;
+  width: 14em;
+}
+label:after {
+  content: ":";
+  margin-right: 1em;
+}
+input {
+  background: none;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+header h1 a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+#github-buttons iframe {
+  margin: 0;
+  padding: 0;
+}
+
+#lhs-molecule {
+  float: left;
+}
+#rhs-molecule {
+  float: right;
+}
+#config {
+  clear: both;
+}
+#form:after {
+  content: ".";
+  clear: both;
+  display: block;
+}
+#result {
+  border-top: 1px solid #ddd;
+  margin: 2em 0;
+}
+
+#result .name {
+  display: inline-block;
+  width: 20em;
+}
+#result .value {
+  font-weight: bold;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+  }
+  #github-buttons,
+  #controller button,
+  footer {
+    display: none;
+  }
+}

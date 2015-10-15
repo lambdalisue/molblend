@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset=utf-8 />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<title>molblend</title>
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300|Merriweather">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/ui-lightness/jquery-ui.css">
+<link rel="stylesheet" href="css/molblend.css">
+
+<header>
+  <h1><a href="/molblend/">molblend</a></h1>
+  <h2 class="subscription">Molecule blending calculator</h2>
+  <div id="github-buttons">
+    <iframe
+      src="https://ghbtns.com/github-btn.html?user=lambdalisue&repo=molblend&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+
+    <iframe
+      src="https://ghbtns.com/github-btn.html?user=lambdalisue&repo=molblend&type=fork&count=true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+
+    <iframe src="https://ghbtns.com/github-btn.html?user=lambdalisue&type=follow&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+  </div>
+</header>
+
+<div id="controller">
+  <form id="calculator">
+    <div id="lhs-molecule" class="molecule lhs">
+      <h3>Left hand side molecule (lhs)</h3>
+      <p>
+        <label for="lhs-name">Name (optional)</label>
+        <input id="lhs-name" placeholder="lhs"/>
+      </p>
+      <p>
+        <label for="lhs-mweight">Molecular weight [g/mol]</label>
+        <input id="lhs-mweight" pattern="[0-9.]+" required />
+      </p>
+      <p>
+        <label for="lhs-density">Density [g/cm<sup>3</sup>]</label>
+        <input id="lhs-density" pattern="[0-9.]+" required />
+      </p>
+    </div>
+    <div id="rhs-molecule" class="molecule rhs">
+      <h3>Right hand side molecule (rhs)</h3>
+      <p>
+        <label for="rhs-name">Name (optional)</label>
+        <input id="rhs-name" value="Water" placeholder="rhs" />
+      </p>
+      <p>
+        <label for="rhs-mweight">Molecular weight [g/mol]</label>
+        <input id="rhs-mweight" pattern="[0-9.]+" value="18.01" required />
+      </p>
+      <p>
+        <label for="rhs-density">Density [g/cm<sup>3</sup>]</label>
+        <input id="rhs-density" pattern="[0-9.]+" value="0.999" required />
+      </p>
+    </div>
+    <div id="config">
+      <h3>Config</h3>
+      <p>
+        <label for="percentage">Percentage [%]</label>
+        <input id="percentage" pattern="[0-9.]+" required />
+      </p>
+      <p>
+        <label for="method">Method</label>
+        <select id="method">
+          <option value="VV" selected="selected">Volume (lhs) / Volume (rhs)</option>
+          <option value="WW">Weight (lhs) / Weight (rhs)</option>
+          <option value="WV">Weight (lhs) / Volume (rhs)</option>
+        </select>
+      </p>
+      <p>
+        <label for="threshold">Threshold</label>
+        <input id="threshold" pattern="[0-9.]+" placeholder="0.01" />
+      </p>
+    </div>
+    <p><button type="button" id="calc" disabled>Calculate</button></p>
+  </form>
+</div>
+
+<div id="result">
+</div>
+
+<footer>
+  <p>&copy; 2015 hashnote.net, &Lambda;lisue
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+<script src="js/require.min.js" data-main="js/main"></script>
+</html>
