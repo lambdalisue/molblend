@@ -19,6 +19,11 @@ h1 + h2.subscription {
     letter-spacing: 0.1em;
 }
 
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
 label {
   display: inline-block;
   width: 14em;
@@ -38,16 +43,33 @@ header h1 a {
   color: inherit;
   text-decoration: inherit;
 }
+table {
+  margin: 0 0 4em 0;
+  width: 100%;
+  border-collapse:: collapse;
+}
+table th {
+  width: 25%;
+  padding: 6px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #ddd;
+}
+table td {
+  width: 25%;
+  padding: 6px;
+  border-bottom: 1px solid #ddd;
+}
 
 #github-buttons iframe {
   margin: 0;
   padding: 0;
 }
 
-#lhs-molecule {
+#solute-molecule {
   float: left;
 }
-#rhs-molecule {
+#solvent-molecule {
   float: right;
 }
 #config {
@@ -58,10 +80,6 @@ header h1 a {
   clear: both;
   display: block;
 }
-#result {
-  border-top: 1px solid #ddd;
-  margin: 2em 0;
-}
 
 #result .name {
   display: inline-block;
@@ -69,6 +87,10 @@ header h1 a {
 }
 #result .value {
   font-weight: bold;
+}
+
+#solute-n {
+  width: 2em;
 }
 
 @media print {

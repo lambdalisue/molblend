@@ -21,20 +21,30 @@ define(function(require) {
         };
     };
 
+    Object.defineProperty(molblend, 'Solute', {
+        get: function() { return getMolecule('solute'); },
+    });
+    Object.defineProperty(molblend, 'Solvent', {
+        get: function() { return getMolecule('solvent'); },
+    });
+
+    // expose
+    window.molblend = molblend;
+
     $(function() {
-        $('#calculator').submit(function(){
-            var lhs = getMolecule('lhs');
-            var rhs = getMolecule('rhs');
+        $('#controller').submit(function(){
+            var solute = molblend.Solute;
+            var solvent = molblend.Solvent;
             var conf = getConfig();
 
             var result = conf.method(
-                lhs, rhs, conf.percentage, conf.threshold
+                solute, solvent, conf.percentage, conf.threshold
             );
 
             var $result = $('#result');
             $result.empty();
-            $result.append(sprintf('<h3>Recipe of %f%% solution</h3>', conf.percentage));
-            $result.append(sprintf('<h4>Information of %s</h4>', lhs.name));
+            $result.append(sprintf('<h3>Recipe of %f%% %s solution</h3>', conf.percentage, solute.name));
+            $result.append(sprintf('<h4>Information of %s (solute)</h4>', solute.name));
             $result.append(sprintf([
                 '<p><span class="name">The number of molecules required</span>',
                 '<span class="value">%d (%.2f)</span></p>',
@@ -42,12 +52,12 @@ define(function(require) {
             $result.append(sprintf([
                 '<p><span class="name">The estimated volume [m<sup>3</sup>]</span>',
                 '<span class="value">%e</span></p>',
-            ].join(''), lhs.toVolume(result[0])));
+            ].join(''), solute.toVolume(result[0])));
             $result.append(sprintf([
                 '<p><span class="name">The estimated weight [g]</span>',
                 '<span class="value">%e</span></p>',
-            ].join(''), lhs.toWeight(result[0])));
-            $result.append(sprintf('<h4>Information of %s</h4>', rhs.name));
+            ].join(''), solute.toWeight(result[0])));
+            $result.append(sprintf('<h4>Information of %s (solvent)</h4>', solvent.name));
             $result.append(sprintf([
                 '<p><span class="name">The number of molecules required</span>',
                 '<span class="value">%d (%.2f)</span></p>',
@@ -55,11 +65,11 @@ define(function(require) {
             $result.append(sprintf([
                 '<p><span class="name">The estimated volume [m<sup>3</sup>]</span>',
                 '<span class="value">%e</span></p>',
-            ].join(''), rhs.toVolume(result[1])));
+            ].join(''), solvent.toVolume(result[1])));
             $result.append(sprintf([
                 '<p><span class="name">The estimated weight [g]</span>',
                 '<span class="value">%e</span></p>',
-            ].join(''), rhs.toWeight(result[1])));
+            ].join(''), solvent.toWeight(result[1])));
 
             return false;
         });

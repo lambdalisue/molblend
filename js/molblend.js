@@ -33,78 +33,78 @@ define(function(require) {
         return weight.times(A).div(this.mweight);
     };
 
-    var blend = function(expr, lhs, rhs, percentage, threshold) {
+    var blend = function(expr, solute, solvent, percentage, threshold) {
         percentage = new Decimal(percentage);
         threshold = new Decimal(threshold === undefined ? '0.01' : threshold)
         var k = percentage.div((new Decimal(100)).minus(percentage));
         var K = (new Decimal(1)).div(k);
         var n = new Decimal(1);
         while (true) {
-            // guess rhs_n from lhs_n
-            rhs_t = expr(n, lhs, rhs, k);
-            if (rhs_t.round().minus(rhs_t).abs().lessThan(threshold)) {
-                lhs_n = n;
-                rhs_n = rhs_t;
+            // guess solvent_n from solute_n
+            solvent_t = expr(n, solute, solvent, k);
+            if (solvent_t.round().minus(solvent_t).abs().lessThan(threshold)) {
+                solute_n = n;
+                solvent_n = solvent_t;
                 break;
             }
-            // guess lhs_n from rhs_n (opposite way)
-            lhs_t = expr(n, rhs, lhs, K);
-            if (lhs_t.round().minus(lhs_t).abs().lessThan(threshold)) {
-                lhs_n = lhs_t;
-                rhs_n = n;
+            // guess solute_n from solvent_n (opposite way)
+            solute_t = expr(n, solvent, solute, K);
+            if (solute_t.round().minus(solute_t).abs().lessThan(threshold)) {
+                solute_n = solute_t;
+                solvent_n = n;
                 break;
             }
             n = n.plus(1);
         }
-        return [lhs_n, rhs_n];
+        return [solute_n, solvent_n];
     };
-    var blendVV = function(lhs, rhs, percentage, threshold) {
-        // Calculate required number of combination for volume(lhs)/volume(rhs)
+    var blendVV = function(solute, solvent, percentage, threshold) {
+        // Calculate required number of combination for volume(solute)/volume(solvent)
         //
-        // lhs_v [m^3] : rhs_v [m^3] = (100 - percentage) : percentage
-        // rhs_v [m^3] = percentage * lhs_v [m^3] / (100 - percentage)
-        // lhs_v [m^3] = lhs_n / AVOGADRO / lhs_e [mol/m^3]
-        // rhs_v [m^3] = rhs_n / AVOGADRO / rhs_e [mol/m^3]
-        // (rhs_n / AVOGADRO / rhs_e [mol/m^3]) = percentage * (lhs_n / AVOGADRO / lhs_e [mol/m^3]) / (100 - percentage)
-        // rhs_n = (rhs_e [mol/m^3] / lhs_e [mol/m^3]) * (percentage / (100 - percentage)) * lhs_n
-        // rhs_n = m * k * lhs_n
-        var expr = function(lhs_n, lhs, rhs, k) {
-            var m = rhs.coefficient.div(lhs.coefficient);
-            return m.times(k).times(lhs_n);
+        // solute_v [m^3] : solvent_v [m^3] = (100 - percentage) : percentage
+        // solvent_v [m^3] = percentage * solute_v [m^3] / (100 - percentage)
+        // solute_v [m^3] = solute_n / AVOGADRO / solute_e [mol/m^3]
+        // solvent_v [m^3] = solvent_n / AVOGADRO / solvent_e [mol/m^3]
+        // (solvent_n / AVOGADRO / solvent_e [mol/m^3]) = percentage * (solute_n / AVOGADRO / solute_e [mol/m^3]) / (100 - percentage)
+        // solvent_n = (solvent_e [mol/m^3] / solute_e [mol/m^3]) * (percentage / (100 - percentage)) * solute_n
+        // solvent_n = m * k * solute_n
+        var expr = function(solute_n, solute, solvent, k) {
+            var m = solvent.coefficient.div(solute.coefficient);
+            return m.times(k).times(solute_n);
         };
-        return blend(expr, lhs, rhs, percentage, threshold);
+        return blend(expr, solute, solvent, percentage, threshold);
     };
-    var blendWW = function(lhs, rhs, percentage, threshold) {
-        // Calculate required number of combination for weight(lhs)/weight(rhs)
+    var blendWW = function(solute, solvent, percentage, threshold) {
+        // Calculate required number of combination for weight(solute)/weight(solvent)
         //
-        // lhs_w [g] : rhs_w [g] = (100 - percentage) : percentage
-        // rhs_w [g] = percentage * lhs_w [g] / (100 - percentage)
-        // lhs_w [g] = lhs_n / AVOGADRO * lhs_m [g/mol]
-        // rhs_w [g] = rhs_n / AVOGADRO * rhs_m [g/mol]
-        // (rhs_n / AVOGADRO * rhs_m [g/mol]) = percentage * (lhs_n / AVOGADRO * lhs_m [g/mol]) / (100 - percentage)
-        // rhs_n = (lhs_m [g/mol] / rhs_m [g/mol]) * (percentage / (100 - percentage)) * lhs_n
-        // rhs_n = m * k * lhs_n
-        var expr = function(lhs_n, lhs, rhs, k) {
-            var m = lhs.mweight.div(rhs.mweight);
-            return m.times(k).times(lhs_n);
+        // solute_w [g] : solvent_w [g] = (100 - percentage) : percentage
+        // solvent_w [g] = percentage * solute_w [g] / (100 - percentage)
+        // solute_w [g] = solute_n / AVOGADRO * solute_m [g/mol]
+        // solvent_w [g] = solvent_n / AVOGADRO * solvent_m [g/mol]
+        // (solvent_n / AVOGADRO * solvent_m [g/mol]) = percentage * (solute_n / AVOGADRO * solute_m [g/mol]) / (100 - percentage)
+        // solvent_n = (solute_m [g/mol] / solvent_m [g/mol]) * (percentage / (100 - percentage)) * solute_n
+        // solvent_n = m * k * solute_n
+        var expr = function(solute_n, solute, solvent, k) {
+            var m = solute.mweight.div(solvent.mweight);
+            return m.times(k).times(solute_n);
         };
-        return blend(expr, lhs, rhs, percentage, threshold);
+        return blend(expr, solute, solvent, percentage, threshold);
     };
-    var blendWV = function(lhs, rhs, percentage, threshold) {
-        // Calculate required number of combination for weight(lhs)/volume(rhs)
+    var blendWV = function(solute, solvent, percentage, threshold) {
+        // Calculate required number of combination for weight(solute)/volume(solvent)
         //
-        // lhs_w [g] : rhs_v [m^3] = (100 - percentage) : percentage
-        // rhs_v [m^3] = percentage * lhs_w [g] / (100 - percentage)
-        // lhs_w [g] = lhs_n / AVOGADRO * lhs_m [g/mol]
-        // rhs_v [m^3] = rhs_n / AVOGADRO / rhs_e [mol/m^3]
-        // (rhs_n / AVOGADRO / rhs_e [mol/m^3]) = percentage * (lhs_n / AVOGADRO * lhs_m [g/mol]) / (100 - percentage)
-        // rhs_n = (lhs_m [g/mol] * rhs_e [mol/m^3]) * (percentage / (100 - percentage)) * lhs_n
-        // rhs_n = m * k * lhs_n
-        var expr = function(lhs_n, lhs, rhs, k) {
-            var m = rhs.coefficient.times(lhs.mweight);
-            return m.times(k).times(lhs_n);
+        // solute_w [g] : solvent_v [m^3] = (100 - percentage) : percentage
+        // solvent_v [m^3] = percentage * solute_w [g] / (100 - percentage)
+        // solute_w [g] = solute_n / AVOGADRO * solute_m [g/mol]
+        // solvent_v [m^3] = solvent_n / AVOGADRO / solvent_e [mol/m^3]
+        // (solvent_n / AVOGADRO / solvent_e [mol/m^3]) = percentage * (solute_n / AVOGADRO * solute_m [g/mol]) / (100 - percentage)
+        // solvent_n = (solute_m [g/mol] * solvent_e [mol/m^3]) * (percentage / (100 - percentage)) * solute_n
+        // solvent_n = m * k * solute_n
+        var expr = function(solute_n, solute, solvent, k) {
+            var m = solvent.coefficient.times(solute.mweight);
+            return m.times(k).times(solute_n);
         };
-        return blend(expr, lhs, rhs, percentage, threshold);
+        return blend(expr, solute, solvent, percentage, threshold);
     };
 
     // export 'molblend' to the global namespace

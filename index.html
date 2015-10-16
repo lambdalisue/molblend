@@ -11,7 +11,7 @@
 
 <header>
   <h1><a href="/molblend/">molblend</a></h1>
-  <h2 class="subscription">Molecule blending calculator</h2>
+  <h2 class="subscription">Calculate the number of required molecules of solute and solvent</h2>
   <div id="github-buttons">
     <iframe
       src="https://ghbtns.com/github-btn.html?user=lambdalisue&repo=molblend&type=star&count=true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
@@ -23,64 +23,102 @@
   </div>
 </header>
 
-<div id="controller">
-  <form id="calculator">
-    <div id="lhs-molecule" class="molecule lhs">
-      <h3>Left hand side molecule (lhs)</h3>
-      <p>
-        <label for="lhs-name">Name (optional)</label>
-        <input id="lhs-name" placeholder="lhs"/>
-      </p>
-      <p>
-        <label for="lhs-mweight">Molecular weight [g/mol]</label>
-        <input id="lhs-mweight" pattern="[0-9.]+" required />
-      </p>
-      <p>
-        <label for="lhs-density">Density [g/cm<sup>3</sup>]</label>
-        <input id="lhs-density" pattern="[0-9.]+" required />
-      </p>
-    </div>
-    <div id="rhs-molecule" class="molecule rhs">
-      <h3>Right hand side molecule (rhs)</h3>
-      <p>
-        <label for="rhs-name">Name (optional)</label>
-        <input id="rhs-name" value="Water" placeholder="rhs" />
-      </p>
-      <p>
-        <label for="rhs-mweight">Molecular weight [g/mol]</label>
-        <input id="rhs-mweight" pattern="[0-9.]+" value="18.01" required />
-      </p>
-      <p>
-        <label for="rhs-density">Density [g/cm<sup>3</sup>]</label>
-        <input id="rhs-density" pattern="[0-9.]+" value="0.999" required />
-      </p>
-    </div>
-    <div id="config">
-      <h3>Config</h3>
-      <p>
-        <label for="percentage">Percentage [%]</label>
-        <input id="percentage" pattern="[0-9.]+" required />
-      </p>
-      <p>
-        <label for="method">Method</label>
-        <select id="method">
-          <option value="VV" selected="selected">Volume (lhs) / Volume (rhs)</option>
-          <option value="WW">Weight (lhs) / Weight (rhs)</option>
-          <option value="WV">Weight (lhs) / Volume (rhs)</option>
-        </select>
-      </p>
-      <p>
-        <label for="threshold">Threshold</label>
-        <input id="threshold" pattern="[0-9.]+" placeholder="0.01" />
-      </p>
-    </div>
-    <p><button type="submit" id="calc" disabled>Calculate</button></p>
-  </form>
-</div>
+<form id="controller">
+  <div id="solute-molecule" class="molecule solute">
+    <h3>Solute (e.g. Ethanol)</h3>
+    <p>
+      <label for="solute-name">Name (optional)</label>
+      <input id="solute-name" placeholder="solute"/>
+    </p>
+    <p>
+      <label for="solute-mweight">Molecular weight [g/mol]</label>
+      <input id="solute-mweight" pattern="[0-9.]+" required />
+    </p>
+    <p>
+      <label for="solute-density">Density [g/cm<sup>3</sup>]</label>
+      <input id="solute-density" pattern="[0-9.]+" required />
+    </p>
+  </div>
+  <div id="solvent-molecule" class="molecule solvent">
+    <h3>Solvent (e.g. Water)</h3>
+    <p>
+      <label for="solvent-name">Name (optional)</label>
+      <input id="solvent-name" value="Water" placeholder="solvent" />
+    </p>
+    <p>
+      <label for="solvent-mweight">Molecular weight [g/mol]</label>
+      <input id="solvent-mweight" pattern="[0-9.]+" value="18.01528" required />
+    </p>
+    <p>
+      <label for="solvent-density">Density [g/cm<sup>3</sup>]</label>
+      <input id="solvent-density" pattern="[0-9.]+" value="0.99820" required />
+    </p>
+  </div>
+  <div id="config">
+    <h3>Config</h3>
+    <p>
+      <label for="percentage">Percentage [%]</label>
+      <input id="percentage" pattern="[0-9.]+" required />
+    </p>
+    <p>
+      <label for="method">Method</label>
+      <select id="method">
+        <option value="VV" selected="selected">Volume (solute) / Volume (solvent)</option>
+        <option value="WW">Weight (solute) / Weight (solvent)</option>
+        <option value="WV">Weight (solute) / Volume (solvent)</option>
+      </select>
+    </p>
+    <p>
+      <label for="threshold">Threshold</label>
+      <input id="threshold" pattern="[0-9.]+" placeholder="0.01" />
+    </p>
+  </div>
+  <p><button id="calc" disabled>Calculate</button></p>
+</form>
 
+<hr>
+
+<h2>Result</h2>
 <div id="result">
 </div>
 
+<hr>
+
+<div id="cheetsheet">
+  <h2>Cheet sheet</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Molecular weight [g/mol]</th>
+      <th>Density [g/cm<sup>3</sup>]</th>
+      <th>Remarks</th>
+    </tr>
+    <tr>
+      <td>Water</td>
+      <td>18.01528</td>
+      <td>0.99820 (at 20 &deg;C)</td>
+      <td><a href="https://en.wikipedia.org/wiki/Water_%28data_page%29">ref</a></td>
+    </tr>
+    <tr>
+      <td>Methanol</td>
+    <td>32.04</td>
+      <td>0.792</td>
+      <td><a href="https://en.wikipedia.org/wiki/Methanol">ref</a></td>
+    </tr>
+    <tr>
+      <td>Ethanol</td>
+      <td>46.07</td>
+      <td>0.789 (at 20 &deg;C)</td>
+      <td><a href="https://en.wikipedia.org/wiki/Ethanol">ref</a></td>
+    </tr>
+    <tr>
+      <td>2,2,2-trifluoroethanol</td>
+      <td>100.04</td>
+      <td>1.325&plusmn;0.06 (at 20 &deg;C)</td>
+      <td><a href="https://en.wikipedia.org/wiki/2,2,2-Trifluoroethanol">ref</a></td>
+    </tr>
+  </table>
+</div>
 
 <!-- Go to www.addthis.com/dashboard to generate a new set of sharing buttons -->
 <a href="https://api.addthis.com/oexchange/0.8/forward/facebook/offer?url=http%3A%2F%2Flambdalisue.github.io%2Fmolblend%2F&pubid=ra-52ca35eb4a386ae9&ct=1&title=molblend%20-%20Calculate%20the%20number%20of%20required%20molecules%20for%20a%20solution&pco=tbxnj-1.0" target="_blank"><img src="https://cache.addthiscdn.com/icons/v2/thumbs/32x32/facebook.png" border="0" alt="Facebook"/></a>
