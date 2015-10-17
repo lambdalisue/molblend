@@ -32,7 +32,7 @@ define(function(require) {
     window.molblend = molblend;
 
     $(function() {
-        $('#controller').submit(function(){
+        $('#calculator').on('submit', function(e){
             var solute = molblend.Solute;
             var solvent = molblend.Solvent;
             var conf = getConfig();
@@ -50,7 +50,7 @@ define(function(require) {
                 '<span class="value">%d (%.2f)</span></p>',
             ].join(''), result[0].toNumber(), result[0].toNumber()));
             $result.append(sprintf([
-                '<p><span class="name">The estimated volume [m<sup>3</sup>]</span>',
+                '<p><span class="name">The estimated volume [mL]</span>',
                 '<span class="value">%e</span></p>',
             ].join(''), solute.toVolume(result[0])));
             $result.append(sprintf([
@@ -63,7 +63,7 @@ define(function(require) {
                 '<span class="value">%d (%.2f)</span></p>',
             ].join(''), result[1].toNumber(), result[1].toNumber()));
             $result.append(sprintf([
-                '<p><span class="name">The estimated volume [m<sup>3</sup>]</span>',
+                '<p><span class="name">The estimated volume [mL]</span>',
                 '<span class="value">%e</span></p>',
             ].join(''), solvent.toVolume(result[1])));
             $result.append(sprintf([
@@ -71,6 +71,7 @@ define(function(require) {
                 '<span class="value">%e</span></p>',
             ].join(''), solvent.toWeight(result[1])));
 
+            e.preventDefault();
             return false;
         });
         $('#calc').removeAttr('disabled');

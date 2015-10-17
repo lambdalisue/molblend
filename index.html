@@ -23,7 +23,7 @@
   </div>
 </header>
 
-<form id="controller">
+<form id="calculator">
   <div id="solute-molecule" class="molecule solute">
     <h3>Solute (e.g. Ethanol)</h3>
     <p>
@@ -73,7 +73,7 @@
       <input id="threshold" pattern="[0-9.]+" placeholder="0.01" />
     </p>
   </div>
-  <p><button id="calc" disabled>Calculate</button></p>
+  <p><button type="submit" id="calc" disabled>Calculate</button></p>
 </form>
 
 <hr>
@@ -120,6 +120,58 @@
   </table>
 </div>
 
+<div id="formula">
+  <h2>Formulas</h2>
+  <div class="formula">
+    <h3>Units</h3>
+    \begin{align*}
+    M_{mole} [mol] &= \frac{N_{Molecules}}{N_{Avogadro}} \\
+    C_{constant} [mol/mL] &= C_{constant} [mol/cm^3] = \frac{D_{density} [g/cm^3]}{R_{molecular~weight} [g/mol]} \\
+    W_{weight} [g] &= M_{mole} [mol] \cdot R_{molecular~weight} [g/mol] \\
+    V_{volume} [mL] &= \frac{M_{mole} [mol]}{C_{constant} [mol/mL]} \\
+    \end{align*}
+  </div>
+
+  <div class="formula">
+    <h3>Volume / Volume</h3>
+    \begin{align*}
+    V_{solute} [mL] : V_{solution} [mL] &= X : 100 \\
+    V_{solution} [mL] &= \frac{100}{X}{X} V_{solute} [mL] \\
+    V_{solute} [mL] + V_{solvent} [mL] &= \frac{100}{X} V_{solute} [mL] \\
+    V_{solvent} [mL] &= \left(\frac{100}{X} - 1\right) V_{solute} [mL] \\
+    \left(\frac{M_{solvent} [mol]}{C_{solvent} [mol/mL]} \right) &= \left(\frac{100}{X} - 1\right) \left(\frac{M_{solute} [mol]}{C_{solute} [mol/mL]} \right) \\
+    \frac{N_{solvent}}{C_{solvent} [mol/mL]} &= \left(\frac{100}{X} - 1\right) \frac{N_{solute}}{C_{solute} [mol/mL]} \\
+    N_{solvent} &= \left(\frac{100}{X} - 1\right) \frac{C_{solvent} [mol/mL]}{C_{solute} [mol/mL]} N_{solute} \\
+    \end{align*}
+  </div>
+
+  <div class="formula">
+    <h3>Weight / Weight</h3>
+    \begin{align*}
+    W_{solute} [g] : W_{solution} [g] &= X : 100 \\
+    W_{solution} [g] &= \frac{100}{X} W_{solute} [g] \\
+    W_{solute} [g] + W_{solvent} [g] &= \frac{100}{X} W_{solute} [g] \\
+    W_{solvent} [g] &= \left(\frac{100}{X} - 1\right) W_{solute} [g] \\
+    \left(M_{solvent} [mol] \cdot R_{solvent} [g/mol] \right) &= \left(\frac{100}{X} - 1\right) \left(M_{solute} [mol] \cdot R_{solute} [g/mol] \right) \\
+    \left(N_{solvent} \cdot R_{solvent} [g/mol] \right) &= \left(\frac{100}{X} - 1\right) \left(N_{solute} \cdot R_{solute} [g/mol] \right) \\
+    N_{solvent} &= \left(\frac{100}{X} - 1\right) \frac{R_{solute} [g/mol]}{R_{solvent} [g/mol]} N_{solute}
+    \end{align*}
+  </div>
+
+  <div class="formula">
+    <h3>Weight / Volume</h3>
+    \begin{align*}
+    W_{solute} [g] : V_{solution} [mL] &= X : 100 \\
+    V_{solution} [mL] &= \frac{100}{X} W_{solute} [g] \\
+    V_{solute} [mL] + V_{solvent} [mL] &= \frac{100}{X} W_{solute} [g] \\
+    V_{solvent} [mL] &= \frac{100}{X} W_{solute} [g] - V_{solute} [mL] \\
+    \left(\frac{M_{solvent} [mol]}{C_{solvent} [mol/mL]}\right) &= \frac{100}{X} \left(M_{solute} [mol] \cdot R_{solute} [g/mol]\right) - \left(\frac{M_{solute} [mol]}{C_{solute} [mol/mL]}\right) \\
+    \frac{N_{solvent}}{C_{solvent} [mol/mL]} &= \frac{100}{X} \left(N_{solute} \cdot R_{solute} [g/mol]\right) - \frac{N_{solute}}{C_{solute} [mol/mL]} \\
+    N_{solvent} &= \frac{100}{X} R_{solute} [g/mol] \cdot C_{solvent} [mol/mL] \cdot N_{solute} - \frac{C_{solvent} [mol/mL]}{C_{solute} [mol/mL]} N_{solute} \\
+    \end{align*}
+  </div>
+</div>
+
 <!-- Go to www.addthis.com/dashboard to generate a new set of sharing buttons -->
 <a href="https://api.addthis.com/oexchange/0.8/forward/facebook/offer?url=http%3A%2F%2Flambdalisue.github.io%2Fmolblend%2F&pubid=ra-52ca35eb4a386ae9&ct=1&title=molblend%20-%20Calculate%20the%20number%20of%20required%20molecules%20for%20a%20solution&pco=tbxnj-1.0" target="_blank"><img src="https://cache.addthiscdn.com/icons/v2/thumbs/32x32/facebook.png" border="0" alt="Facebook"/></a>
 <a href="https://api.addthis.com/oexchange/0.8/forward/twitter/offer?url=http%3A%2F%2Flambdalisue.github.io%2Fmolblend%2F&pubid=ra-52ca35eb4a386ae9&ct=1&title=molblend%20-%20Calculate%20the%20number%20of%20required%20molecules%20for%20a%20solution&pco=tbxnj-1.0" target="_blank"><img src="https://cache.addthiscdn.com/icons/v2/thumbs/32x32/twitter.png" border="0" alt="Twitter"/></a>
@@ -131,5 +183,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="js/require.min.js" data-main="js/main"></script>
 </html>
