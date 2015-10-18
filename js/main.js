@@ -41,35 +41,51 @@ define(function(require) {
                 solute, solvent, conf.percentage, conf.threshold
             );
 
+            var solute_n = result[0].round().toNumber();
+            var solvent_n = result[1].round().toNumber();
+
             var $result = $('#result');
             $result.empty();
             $result.append(sprintf('<h3>Recipe of %f%% %s solution</h3>', conf.percentage, solute.name));
+            $result.append(sprintf([
+                '<p><span class="name">The total number of molecules</span>',
+                '<span class="value">%d (%.2f)</span></p>',
+            ].join(''), solute_n + solvent_n, result[0].plus(result[1]).toNumber()));
+            $result.append(sprintf([
+                '<p><span class="name">The estimated total volume [mL]</span>',
+                '<span class="value">%e</span></p>',
+            ].join(''), solute.toVolume(solute_n).plus(solvent.toVolume(solvent_n))));
+            $result.append(sprintf([
+                '<p><span class="name">The estimated total weight [g]</span>',
+                '<span class="value">%e</span></p>',
+            ].join(''), solute.toWeight(solute_n).plus(solvent.toWeight(solvent_n))));
             $result.append(sprintf('<h4>Information of %s (solute)</h4>', solute.name));
             $result.append(sprintf([
                 '<p><span class="name">The number of molecules required</span>',
                 '<span class="value">%d (%.2f)</span></p>',
-            ].join(''), result[0].toNumber(), result[0].toNumber()));
+            ].join(''), solute_n, result[0].toNumber()));
             $result.append(sprintf([
                 '<p><span class="name">The estimated volume [mL]</span>',
                 '<span class="value">%e</span></p>',
-            ].join(''), solute.toVolume(result[0])));
+            ].join(''), solute.toVolume(solute_n)));
             $result.append(sprintf([
                 '<p><span class="name">The estimated weight [g]</span>',
                 '<span class="value">%e</span></p>',
-            ].join(''), solute.toWeight(result[0])));
+            ].join(''), solute.toWeight(solute_n)));
             $result.append(sprintf('<h4>Information of %s (solvent)</h4>', solvent.name));
             $result.append(sprintf([
                 '<p><span class="name">The number of molecules required</span>',
                 '<span class="value">%d (%.2f)</span></p>',
-            ].join(''), result[1].toNumber(), result[1].toNumber()));
+            ].join(''), solvent_n, result[1].toNumber()));
             $result.append(sprintf([
                 '<p><span class="name">The estimated volume [mL]</span>',
                 '<span class="value">%e</span></p>',
-            ].join(''), solvent.toVolume(result[1])));
+            ].join(''), solvent.toVolume(solvent_n)));
             $result.append(sprintf([
                 '<p><span class="name">The estimated weight [g]</span>',
                 '<span class="value">%e</span></p>',
-            ].join(''), solvent.toWeight(result[1])));
+            ].join(''), solvent.toWeight(solvent_n)));
+
 
             e.preventDefault();
             return false;
